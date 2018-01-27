@@ -15,17 +15,32 @@ connect.then(() => {
 
     Dishes.create({
         name: "Uthapizza",
-        description: "test"
+        description: "test",
     }).then((dish) => {
         console.log('saved the dish:\n');
         console.log(dish);
 
-        return Dishes.find({}).exec();
-    }).then((dishes) => {
-        console.log('retrieved dishes:\n');
-        console.log(dishes);
+        return Dishes.findByIdAndUpdate(dish._id,{
+            $set: {description: "Updatedt Test"}
+        },{new: true}).exec();
 
-        return mongoose.connection.db.dropCollection('dishes');
+    }).then((dish) => {
+        console.log('updated dish:\n');
+        console.log(dish);
+
+        dish.comments.push({
+               rating: 5,
+               comment: "I \'m getting hungry!",
+               author: "Adam Bezecny" 
+        });
+
+        return dish.save();   
+    }).then((dish) => {
+
+        console.log("Updated dish with comment:\n");
+        console.log(dish);
+
+         return mongoose.connection.db.dropCollection('dishes');
         //return Promise.resolve();
     }).then(() => {
         console.log('collection dropped');
