@@ -13,12 +13,10 @@ connect.then(() => {
 
     console.log('Connected correctlty to mongo server');
 
-    var newDish = Dishes({
+    Dishes.create({
         name: "Uthapizza",
         description: "test"
-    });
-
-    newDish.save().then((dish) => {
+    }).then((dish) => {
         console.log('saved the dish:\n');
         console.log(dish);
 
